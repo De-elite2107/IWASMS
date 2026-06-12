@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="IWASMS — Intelligent Web Application Security Monitoring System. Real-time threat detection and classification dashboard." />
+    <meta name="theme-color" content="#0D1117" />
+    <title>IWASMS — Security Monitoring System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Pre-React loading splash — displays until React mounts */
+      body { margin: 0; background: #0D1117; }
+      #app-loader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #0D1117;
+        z-index: 9999;
+        transition: opacity 0.3s ease;
+      }
+      #app-loader.hidden { opacity: 0; pointer-events: none; }
+      #app-loader .brand {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: #E6EDF3;
+        letter-spacing: 0.04em;
+        margin-bottom: 16px;
+      }
+      #app-loader .status {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: #8B949E;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      #app-loader .pulse {
+        width: 6px;
+        height: 6px;
+        background: #1F6FEB;
+        border-radius: 50%;
+        margin-top: 20px;
+        animation: pulse-anim 1.2s ease-in-out infinite;
+      }
+      @keyframes pulse-anim {
+        0%, 100% { transform: scale(1); opacity: 0.6; }
+        50% { transform: scale(2.2); opacity: 1; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading splash — visible until React hydrates -->
+    <div id="app-loader">
+      <div class="brand">◈ IWASMS</div>
+      <div class="status">Initializing Security Monitor</div>
+      <div class="pulse"></div>
+    </div>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Fallback: if React fails to mount within 3s, hide loader and reload without cache
+      setTimeout(function() {
+        var loader = document.getElementById('app-loader');
+        var root = document.getElementById('root');
+        if (loader && (!root || root.children.length === 0)) {
+          // React didn't mount — stale cache issue, force clean reload
+          loader.querySelector('.status').textContent = 'Refreshing...';
+          setTimeout(function() {
+            window.location.reload();
+          }, 500);
+        }
+      }, 3000);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+import os
+import dj_database_url
+from .base import *
+
+DEBUG = False
+
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '*').split()
+
+# Database — use DATABASE_URL from Render/Railway
+if os.environ.get('DATABASE_URL'):
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+    }
+
+# Redis — use REDIS_URL from Render/Railway
+REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [REDIS_URL],
+        },
+    },
+}
+CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = REDIS_URL
+
+# CORS — allow your Netlify frontend
+CORS_ALLOWED_ORIGINS = [
+    origin.strip() for origin in
+    os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:3000').split(',')
+]
+CORS_ALLOW_CREDENTIALS = True
+
+# Security
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# Static files
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

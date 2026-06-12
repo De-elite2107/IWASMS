@@ -1,0 +1,399 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   IWASMS Global Design System
+   Military tactical — dark, high-contrast, operator-grade
+   ============================================================ */
+
+:root {
+  --bg-body: #0D1117;
+  --bg-card: #161B22;
+  --bg-elevated: #1C2128;
+  --border: #30363D;
+  --text-primary: #E6EDF3;
+  --text-secondary: #8B949E;
+  --text-muted: #6E7681;
+  --threat-critical: #F85149;
+  --threat-high: #E3B341;
+  --threat-medium: #58A6FF;
+  --threat-low: #3FB950;
+  --accent-primary: #58A6FF;
+  --accent-dim: #1F6FEB;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Remove default outline, use custom */
+*:focus-visible {
+  outline: 1px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-card);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ============================================================
+   Typography
+   ============================================================ */
+.font-mono {
+  font-family: 'JetBrains Mono', Consolas, monospace !important;
+}
+
+/* ============================================================
+   Severity colour classes
+   ============================================================ */
+.severity-critical { color: var(--threat-critical); }
+.severity-high     { color: var(--threat-high); }
+.severity-medium   { color: var(--threat-medium); }
+.severity-low      { color: var(--threat-low); }
+.severity-normal   { color: var(--threat-low); }
+
+.severity-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 2px;
+}
+.severity-badge.critical { background: rgba(248,81,73,0.15); color: var(--threat-critical); border: 1px solid rgba(248,81,73,0.4); }
+.severity-badge.high     { background: rgba(227,179,65,0.15); color: var(--threat-high); border: 1px solid rgba(227,179,65,0.4); }
+.severity-badge.medium   { background: rgba(88,166,255,0.15); color: var(--threat-medium); border: 1px solid rgba(88,166,255,0.4); }
+.severity-badge.low      { background: rgba(63,185,80,0.15);  color: var(--threat-low);    border: 1px solid rgba(63,185,80,0.4); }
+.severity-badge.normal   { background: rgba(63,185,80,0.10);  color: var(--threat-low);    border: 1px solid rgba(63,185,80,0.3); }
+
+/* ============================================================
+   Cards
+   ============================================================ */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.card-elevated {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.section-header {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ============================================================
+   Blink animation (loading states, alert badges)
+   ============================================================ */
+@keyframes blink-cursor {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.blink {
+  animation: blink-cursor 1s step-end infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(248, 81, 73, 0.4); }
+  50% { box-shadow: 0 0 0 4px rgba(248, 81, 73, 0); }
+}
+
+.pulse-alert {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   Slide-in animation for live feed rows
+   ============================================================ */
+@keyframes slide-in-top {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in {
+  animation: slide-in-top 150ms ease-out forwards;
+}
+
+@keyframes flash-row {
+  0% { background-color: rgba(88, 166, 255, 0.12); }
+  100% { background-color: transparent; }
+}
+
+.flash-highlight {
+  animation: flash-row 800ms ease-out forwards;
+}
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 150ms, border-color 150ms, opacity 150ms;
+}
+
+.btn-primary {
+  background: var(--accent-dim);
+  color: var(--text-primary);
+  border-color: var(--accent-dim);
+}
+.btn-primary:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border-color: var(--border);
+}
+.btn-ghost:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.btn-danger {
+  background: rgba(248,81,73,0.1);
+  color: var(--threat-critical);
+  border-color: rgba(248,81,73,0.4);
+}
+.btn-danger:hover {
+  background: rgba(248,81,73,0.2);
+}
+
+/* ============================================================
+   Form inputs
+   ============================================================ */
+.input-field {
+  background: var(--bg-body);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  padding: 10px 12px;
+  border-radius: 2px;
+  width: 100%;
+  transition: border-color 150ms;
+  outline: none;
+}
+
+.input-field::placeholder {
+  color: var(--text-muted);
+}
+
+.input-field:focus {
+  border-color: var(--accent-primary);
+}
+
+/* ============================================================
+   Table
+   ============================================================ */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+
+.data-table th {
+  padding: 8px 12px;
+  text-align: left;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.data-table th:hover {
+  color: var(--text-secondary);
+}
+
+.data-table td {
+  padding: 8px 12px;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.data-table tr:hover td {
+  background: var(--bg-elevated);
+  cursor: pointer;
+}
+
+/* ============================================================
+   Drawer
+   ============================================================ */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 40;
+  animation: fade-in 150ms ease;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 480px;
+  height: 100vh;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border);
+  z-index: 50;
+  overflow-y: auto;
+  animation: slide-in-right 200ms ease;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+/* ============================================================
+   Status dot
+   ============================================================ */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-dot.connected { background: var(--threat-low); box-shadow: 0 0 6px var(--threat-low); }
+.status-dot.disconnected { background: var(--threat-critical); }
+
+/* ============================================================
+   Navigation
+   ============================================================ */
+.nav-link {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+  text-decoration: none;
+  transition: color 150ms, border-color 150ms;
+}
+.nav-link:hover { color: var(--text-primary); }
+.nav-link.active { color: var(--text-primary); border-bottom-color: var(--accent-primary); }
+
+/* ============================================================
+   Metric card
+   ============================================================ */
+.metric-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.metric-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   Code block
+   ============================================================ */
+.code-block {
+  background: var(--bg-body);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-primary);
+  overflow-x: auto;
+  white-space: pre;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   Recharts overrides
+   ============================================================ */
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: var(--bg-elevated) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 2px !important;
+}
