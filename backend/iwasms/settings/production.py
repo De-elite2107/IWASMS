@@ -1,5 +1,4 @@
 import os
-import dj_database_url
 from .base import *
 
 DEBUG = False
@@ -7,9 +6,13 @@ DEBUG = False
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '*').split()
 
 # Database — use DATABASE_URL from Render/Railway
-if os.environ.get('DATABASE_URL'):
+DATABASE_URL = os.environ.get('DATABASE_URL', '').strip()
+if DATABASE_URL:
+    import dj_database_url
     DATABASES = {
-        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+        'default': dj_database_url.config(
+            default=DATABASE_URL, conn_max_age=600, ssl_require=True
+        )
     }
 
 # Redis — use REDIS_URL from Render/Railway

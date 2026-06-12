@@ -433,7 +433,7 @@ export default function EventLogTable() {
 function exportCSV(events: SecurityEvent[]) {
   const headers = ['id', 'timestamp', 'source_ip', 'http_method', 'url', 'attack_type', 'severity', 'confidence_score']
   const rows = events.map((e) =>
-    headers.map((h) => JSON.stringify((e as Record<string, unknown>)[h] ?? '')).join(',')
+    headers.map((h) => JSON.stringify((e as unknown as Record<string, unknown>)[h] ?? '')).join(',')
   )
   const csv = [headers.join(','), ...rows].join('\n')
   downloadBlob(csv, 'iwasms_events.csv', 'text/csv')
