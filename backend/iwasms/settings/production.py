@@ -15,6 +15,11 @@ if DATABASE_URL:
         )
     }
 
+# Auto-create admin user (set these env vars on Render)
+ADMIN_USERNAME = os.environ.get('DJANGO_ADMIN_USERNAME', 'admin')
+ADMIN_EMAIL = os.environ.get('DJANGO_ADMIN_EMAIL', 'admin@iwasms.local')
+ADMIN_PASSWORD = os.environ.get('DJANGO_ADMIN_PASSWORD', 'admin123')
+
 # Redis — use REDIS_URL from Render/Railway
 REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
 CHANNEL_LAYERS = {
@@ -30,8 +35,9 @@ CELERY_RESULT_BACKEND = REDIS_URL
 
 # CORS — allow your Netlify frontend
 CORS_ALLOWED_ORIGINS = [
-    origin.strip() for origin in
+    origin.strip().rstrip('/') for origin in
     os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:3000').split(',')
+    if origin.strip()
 ]
 CORS_ALLOW_CREDENTIALS = True
 
